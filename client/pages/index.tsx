@@ -9,15 +9,17 @@ const Home: NextPage = () => {
   };
   return (
     <div className={darkMode}>
-      <div className=" bg-blue max-w-4/5 mx-auto dark:bg-purple">
+      <div className="bg-pink">
         <Head>
           <title>MyApp</title>
           <meta name="description" content="For Learning" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
+      </div>
+      <main className="bg-blue max-w-4/5 mx-auto dark:bg-purple">
         <h1 className="text-yellow">HEY</h1>
         <button onClick={toggleMode}>Toggle Mode</button>
-      </div>
+      </main>
     </div>
   );
 };
