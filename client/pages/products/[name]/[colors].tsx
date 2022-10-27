@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Colors = () => {
   const router = useRouter();
@@ -6,7 +7,10 @@ const Colors = () => {
   const { colors, name } = router.query;
   return (
     <div>
-      {name}の色は{colors}です
+      <h3>
+        {name}の色は{colors}です
+      </h3>
+      <Link href="/">BACK</Link>
     </div>
   );
 };

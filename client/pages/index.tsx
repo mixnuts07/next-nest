@@ -9,17 +9,24 @@ const Home: NextPage = () => {
     darkMode === "dark" ? setDarkMode("") : setDarkMode("dark");
   };
   return (
-    <div className="">
-      {/* <div className={darkMode}> */}
+    <div className={darkMode}>
       <Head>
         <title>MyApp</title>
         <meta name="description" content="For Learning" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex flex-col max-w-4/5 mx-auto dark:bg-purple">
-        <h1 className="text-green">HEY</h1>
-        <button onClick={toggleMode}>Toggle Mode</button>
-        <Link href="/about">ABOUT</Link>
+      <main>
+        <div className="flex flex-col mx-auto dark:bg-purple dark:text-white">
+          <button onClick={toggleMode}>Toggle Mode</button>
+        </div>
+        <ol>
+          <li>
+            <Link href="/about">ABOUT</Link>
+          </li>
+          <li>
+            <Link href="/products/name/red">PRODUCTS</Link>
+          </li>
+        </ol>
       </main>
     </div>
   );
