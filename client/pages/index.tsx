@@ -21,7 +21,8 @@ const Home: NextPage = () => {
         <meta name="description" content="For Learning" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* TODO:LayOutの追加（共通のヘッダー、フッターなど） */}
+      {/* TODO:LayOutの追加（共通のヘッダー、フッターなど）
+      https://nextjs.org/docs/basic-features/layouts */}
       <main>
         <div className="text-center my-5">
           <div className="flex flex-col mx-auto dark:bg-purple dark:text-white mt-10">
@@ -52,14 +53,23 @@ const Home: NextPage = () => {
             </div>
           </ul>
         </div>
-        <div className="mx-auto pt-10 flex w-fit">
+        <div className="mx-auto pt-2 flex w-fit">
           <ul>
             <li className="text-left flex items-end">
-              <h2 className="underline text-2xl">2022.10.10</h2>
+              <h2 className="underline text-2xl">2022.10.29</h2>
               <h4>要素中央ゾロえ</h4>
             </li>
             <li className="text-left">f3232</li>
           </ul>
+        </div>
+        <div className="dark:bg-purple dark:text-white mt-10 text-center">
+          <Link href="/posts">Go TO POSTS PAGE!!(SSR)</Link>
+        </div>
+        <div className="dark:bg-purple dark:text-white mt-10 text-center">
+          <Link href="/ssg">Go TO POSTS PAGE!!(SSG)</Link>
+        </div>
+        <div className="dark:bg-purple dark:text-white mt-10 text-center">
+          <Link href="/swr">Go TO POSTS PAGE!!(SWR)</Link>
         </div>
       </main>
     </div>
