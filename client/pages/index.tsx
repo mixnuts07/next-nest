@@ -1,19 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+
+type UserType = {
+  id?: string;
+  name?: string;
+};
 
 const Home: NextPage = () => {
   const [darkMode, setDarkMode] = useState<string>("dark");
   const toggleMode = () => {
     darkMode === "dark" ? setDarkMode("") : setDarkMode("dark");
   };
+  const [users, setUsers] = useState<UserType[]>([]);
   const pages = ["ABOUT", "PRODUCTS"];
   const products = [
     { name: "bag", color: "red" },
     { name: "wallet", color: "blue" },
     { name: "hat", color: "green" },
   ];
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await fetch("/api/users");
+      const userData = await response.json();
+      setUsers(userData.users);
+    };
+    fetchUsers();
+  }, []);
   return (
     <div className={darkMode}>
       <Head>
@@ -21,8 +35,6 @@ const Home: NextPage = () => {
         <meta name="description" content="For Learning" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* TODO:LayOutの追加（共通のヘッダー、フッターなど）
-      https://nextjs.org/docs/basic-features/layouts */}
       <main>
         <div className="text-center my-5">
           <div className="flex flex-col mx-auto dark:bg-purple dark:text-white mt-10">
@@ -70,6 +82,14 @@ const Home: NextPage = () => {
         </div>
         <div className="dark:bg-purple dark:text-white mt-10 text-center">
           <Link href="/swr">Go TO POSTS PAGE!!(SWR)</Link>
+        </div>
+        <div className="dark:bg-purple dark:text-white mt-10 text-center">
+          <h1>FETCH USERS API DATA</h1>
+          <ul>
+            {users.map((user) => (
+              <li key={user.id}>{user.name}</li>
+            ))}
+          </ul>
         </div>
       </main>
     </div>
