@@ -1,5 +1,8 @@
 import { ApolloServer, gql } from "apollo-server-micro";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { Prisma, PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 // GraphQL Scheme
 // helloクエリを呼ぶと返り値がStringということ
@@ -20,11 +23,16 @@ const users = [
   { id: "2", name: "Jane Doe", email: "jane@example.com" },
 ];
 
+interface Context {
+  prisma: PrismaClient;
+}
 // Resolvers
 const resolvers = {
   Query: {
     hello: () => "Hello Apollo Micro",
-    users: () => users,
+    users: async (parent: undefined, args: {}, context: Context) => {
+      return await context.prisma.user.findMany();
+    },
   },
 };
 
@@ -33,6 +41,9 @@ const resolvers = {
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
+  context: {
+    prisma,
+  },
 });
 
 const startServer = apolloServer.start();

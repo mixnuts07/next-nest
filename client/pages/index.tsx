@@ -2,6 +2,17 @@ import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import { useQuery, gql } from "@apollo/client";
+
+const GET_USERS = gql`
+  query GetUsers {
+    users {
+      id
+      name
+      email
+    }
+  }
+`;
 
 type UserType = {
   id?: string;
@@ -13,13 +24,14 @@ const Home: NextPage = () => {
   const toggleMode = () => {
     darkMode === "dark" ? setDarkMode("") : setDarkMode("dark");
   };
-  const [users, setUsers] = useState<UserType[]>([]);
+  const [usersData, setUsers] = useState<UserType[]>([]);
   const pages = ["ABOUT", "PRODUCTS"];
   const products = [
     { name: "bag", color: "red" },
     { name: "wallet", color: "blue" },
     { name: "hat", color: "green" },
   ];
+
   useEffect(() => {
     const fetchUsers = async () => {
       const response = await fetch("/api/users");
@@ -28,6 +40,10 @@ const Home: NextPage = () => {
     };
     fetchUsers();
   }, []);
+  const { data, loading, error } = useQuery(GET_USERS);
+  if (loading) return <p>Loading ... </p>;
+  if (error) return <p>Error!! </p>;
+  const { users } = data;
   return (
     <div className={darkMode}>
       <Head>
@@ -83,13 +99,18 @@ const Home: NextPage = () => {
         <div className="dark:bg-purple dark:text-white mt-10 text-center">
           <Link href="/swr">Go TO POSTS PAGE!!(SWR)</Link>
         </div>
-        <div className="dark:bg-purple dark:text-white mt-10 text-center">
+        {/* <div className="dark:bg-purple dark:text-white mt-10 text-center">
           <h1>FETCH USERS API DATA</h1>
           <ul>
-            {users.map((user) => (
+            {usersData.map((user) => (
               <li key={user.id}>{user.name}</li>
             ))}
           </ul>
+        </div> */}
+        <div className="dark:bg-purple dark:text-white mt-10 text-center">
+          {users.map((user: { id: number; name: string; email: string }) => (
+            <div key={user.id}>Name: {user.name}</div>
+          ))}
         </div>
       </main>
     </div>
